@@ -1,0 +1,30 @@
+cxx = clang++
+cxxflags = -g -Wall -Wextra -pedantic -O3 -Iinc
+lnkflags = -Lo -lstl
+rule cpp
+          depfile = $out.d
+          command = $cxx -c -MD -MF $out.d $cxxflags -o $out $in
+          description = [cpp] $cxx $in -> $out
+rule lib
+         command = ar rcs $out $in
+         description = [static] ar $in -> $out
+rule lnk
+         command = $cxx $cxxflags -o $out $in $lnkflags
+         description = [link] $cxx $in -> $out
+rule mkdir
+         command = mkdir -p $out
+rule rm
+         command = rm -rf $in
+rule exe
+         command = $in
+build clean: rm o
+build run: exe o/rps
+build o: mkdir
+build o/str.cpp.o: cpp src/str.cpp
+build o/vec.cpp.o: cpp src/vec.cpp
+build o/com.cpp.o: cpp src/com.cpp
+build o/libstl.a: lib o/str.cpp.o o/vec.cpp.o o/com.cpp.o
+build o/test.cpp.o: cpp run/test.cpp
+build o/test: lnk o/libstl.a o/test.cpp.o
+build test: exe o/test
+default o/libstl.a

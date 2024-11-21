@@ -1,0 +1,38 @@
+#!/usr/bin/env goal
+
+nl:{x+"\n"+y}
+sp:{x+" "+y}
+
+fs:{f:read x;f["name"]@&~f"dir"}
+src:fs "src"
+test:fs "run"
+
+cpp:{x@&{"cpp"~+/|3#|("c"$)'"c"$x}'x}
+
+say'("cxx = clang++"
+     "cxxflags = -g -Wall -Wextra -pedantic -O3 -Iinc"
+     "lnkflags = -Lo -lstl"
+     rq/rule cpp
+          depfile = $out.d
+          command = $cxx -c -MD -MF $out.d $cxxflags -o $out $in
+          description = [cpp] $cxx $in -> $out/
+     rq/rule lib
+         command = ar rcs $out $in
+         description = [static] ar $in -> $out/
+     rq/rule lnk
+         command = $cxx $cxxflags -o $out $in $lnkflags
+         description = [link] $cxx $in -> $out/
+     rq/rule mkdir
+         command = mkdir -p $out/
+     rq/rule rm
+         command = rm -rf $in/
+     rq/rule exe
+         command = $in/
+     "build clean: rm o"
+     "build o: mkdir"
+     nl/{"build o/"+x+".o: cpp src/$x"}'cpp src
+     "build o/libstl.a: lib "+sp/{"o/"+x+".o"}'cpp src
+     nl/{"build o/"+x+".o: cpp run/$x"}'cpp test
+     "build o/test: lnk o/libstl.a "+sp/{"o/"+x+".o"}'cpp test
+     "build test: exe o/test"
+     "default o/libstl.a")
