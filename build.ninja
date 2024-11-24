@@ -1,5 +1,5 @@
 cxx = clang++
-cxxflags = -g -Wall -Wextra -pedantic -O3 -Iinc
+cxxflags = -g -Wall -Wextra -Wno-c99-extensions -pedantic -O3 -Iinc
 lnkflags = -Lo -lstl
 rule cpp
           depfile = $out.d
@@ -18,7 +18,6 @@ rule rm
 rule exe
          command = $in
 build clean: rm o
-build run: exe o/rps
 build o: mkdir
 build o/str.cpp.o: cpp src/str.cpp
 build o/vec.cpp.o: cpp src/vec.cpp

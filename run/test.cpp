@@ -32,8 +32,8 @@ using ByteVecTest = test_t<Vec<uint8_t>>;
 ByteVecTest byte_tests[] = {
 	ByteVecTest(
 		"3ints",
-		array_to_vec<uint8_t, 3>((uint8_t[3]){1, 2, 3}),
-		[](){
+		array_to_vec<uint8_t, 3>((uint8_t[]){1, 2, 3}),
+		[]() {
 			auto v = Vec<uint8_t>();
 			for (uint8_t i = 1; i < 4; i++) v.push(i);
 			return v;
@@ -45,8 +45,8 @@ using SizeVecTest = test_t<Vec<size_t>>;
 SizeVecTest size_tests[] = {
        SizeVecTest(
 	       "many at",
-		array_to_vec<size_t, 3>((size_t[3]){5, 2, 4}),
-		[](){
+		array_to_vec<size_t, 3>((size_t[]){5, 2, 4}),
+		[]() {
 			auto v = Vec<size_t>();
 			for (size_t i = 0; i < 10; i++) v.push(i);
 
@@ -61,8 +61,15 @@ SizeVecTest size_tests[] = {
 	SizeVecTest(
 		"iota",
 		array_to_vec<size_t, 5>((size_t[]){0, 1, 2, 3, 4}),
-		[](){
+		[]() {
 			return Vec<size_t>::iota(5);
+		}
+	),
+	SizeVecTest(
+		"VEC macro",
+		array_to_vec<size_t, 3>((size_t[]){0, 1, 2}),
+		[]() {
+			return VEC(size_t, 0, 1, 2);
 		}
 	)
 };

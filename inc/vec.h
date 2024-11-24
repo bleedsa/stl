@@ -100,4 +100,13 @@ bool operator==(const Vec<T>& x, const Vec<T>& y) {
 	return false;
 }
 
+namespace detail {
+    template<typename ...Args>
+    constexpr std::size_t va_count(Args&&...) { return sizeof...(Args); }
+}
+#define ARGC(...) detail::va_count(__VA_ARGS__)
+
+/** make a vector from the arguments */
+#define VEC(t, ...) (Vec<t>((t[]){ __VA_ARGS__ }, ARGC(__VA_ARGS__), ARGC(__VA_ARGS__)))
+
 #endif
