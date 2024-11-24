@@ -71,6 +71,18 @@ SizeVecTest size_tests[] = {
 		[]() {
 			return VEC(size_t, 0, 1, 2);
 		}
+	),
+	SizeVecTest(
+		"bool at",
+		VEC(size_t, 0, 2, 4, 6),
+		[]() {
+			#define T true
+			#define F false
+			return Vec<size_t>::iota(7)
+				.at(VEC(bool, T, F, T, F, T, F, T));
+			#undef T
+			#undef F
+		}
 	)
 };
 

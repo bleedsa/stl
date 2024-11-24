@@ -82,6 +82,15 @@ struct Vec {
 		return r;
 	}
 
+	Vec<T> at(Vec<bool> idx) {
+		ASSERT(idx.len() == len());
+		auto r = Vec<T>();
+		for (size_t n = 0; n < len(); n++) {
+			if (idx.at(n)) r.push(at(n));
+		}
+		return r;
+	}
+
 	inline static Vec<T> iota(T n) {
 		auto r = Vec<T>();
 		for (T i = 0; i < n; i++) r.push(i);

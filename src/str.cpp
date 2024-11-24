@@ -46,7 +46,7 @@ namespace str {
 	}
 
 	auto str::to_c_str() -> char* {
-		auto s = (char*)malloc((sizeof(char) * i) + 2);
+		auto s = (char*)malloc(sizeof(char) * (i + 2));
 		memcpy(s, buf, sizeof(char) * i);
 		s[i + 1] = '\0';
 		return s;
