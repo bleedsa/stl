@@ -10,7 +10,7 @@ test:fs "run"
 cpp:{x@&{"cpp"~+/|3#|("c"$)'"c"$x}'x}
 
 say'("cxx = clang++"
-     "cxxflags = -g -Wall -Wextra -Wno-c99-extensions -pedantic -O3 -Iinc"
+     "cxxflags = -g -Wall -Wextra -Wno-c99-extensions -pedantic -fblocks -O3 -Iinc"
      "lnkflags = -Lo -lstl"
      rq/rule cpp
           depfile = $out.d

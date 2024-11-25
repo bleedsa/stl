@@ -96,6 +96,19 @@ struct Vec {
 		for (T i = 0; i < n; i++) r.push(i);
 		return r;
 	}
+
+	template<typename X>
+	Vec<X> each(X (^f)(T)) {
+		auto r = Vec<X>();
+		for (size_t n = 0; n < len(); n++) r.push(f(at(n)));
+		return r;
+	}
+
+	Vec<T> operator+(T x) {
+		auto r = Vec<T>();
+		for (size_t n = 0; n < len(); n++) r.push(x + at(n));
+		return r;
+	}
 };
 
 template<typename T>

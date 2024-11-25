@@ -83,6 +83,23 @@ SizeVecTest size_tests[] = {
 			#undef T
 			#undef F
 		}
+	),
+	SizeVecTest(
+		"each",
+		VEC(size_t, 1, 2, 3),
+		[]() {
+			return Vec<size_t>::iota(3)
+				.each(^size_t (size_t x) {
+					return x + 1;
+				});
+		}
+	),
+	SizeVecTest(
+		"add",
+		VEC(size_t, 1, 2, 3),
+		[]() {
+			return Vec<size_t>::iota(3) + 1;
+		}
 	)
 };
 

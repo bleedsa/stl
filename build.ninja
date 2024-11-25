@@ -1,5 +1,5 @@
 cxx = clang++
-cxxflags = -g -Wall -Wextra -Wno-c99-extensions -pedantic -O3 -Iinc
+cxxflags = -g -Wall -Wextra -Wno-c99-extensions -pedantic -fblocks -O3 -Iinc
 lnkflags = -Lo -lstl
 rule cpp
           depfile = $out.d
