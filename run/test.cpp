@@ -89,7 +89,7 @@ SizeVecTest size_tests[] = {
 		VEC(size_t, 1, 2, 3),
 		[]() {
 			return Vec<size_t>::iota(3)
-				.each(^size_t (size_t x) {
+				.each<size_t>([](size_t x) -> size_t {
 					return x + 1;
 				});
 		}
@@ -100,7 +100,26 @@ SizeVecTest size_tests[] = {
 		[]() {
 			return Vec<size_t>::iota(3) + 1;
 		}
+	),
+	SizeVecTest(
+		"math",
+		VEC(size_t, 2, 4, 6),
+		[]() {
+			return (Vec<size_t>::iota(3) + 1) * 2;
+		}
+	),
+	/*
+	SizeVecTest(
+		"chain",
+		VEC(size_t, 2, 3, 4),
+		[]() {
+			return (Vec<size_t>::iota(3) + 1)
+				.each([](size_t x) -> size_t {
+					return x + 1;
+				});
+		}
 	)
+	*/
 };
 
 int main() {
@@ -111,10 +130,10 @@ int main() {
 			cout << (r ? "success" : "failed") << endl; \
 			if (!r) { \
 				auto lhs = x.exp.to_str().to_c_str(); \
-				cout << "lhs: " << lhs << endl; \
+				cout << "want: " << lhs << endl; \
 				free(lhs); \
 				auto rhs = x.fun().to_str().to_c_str(); \
-				cout << "rhs: " << rhs << endl; \
+				cout << "gave: " << rhs << endl; \
 				free(rhs); \
 			} \
 		} \

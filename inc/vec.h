@@ -20,6 +20,11 @@ struct Vec {
 		buf = (T*)malloc(sizeof(T) * size);
 	}
 
+	Vec(size_t n) {
+		i = 0, size = n;
+		buf = (T*)malloc(sizeof(T) * size);
+	}
+
 	Vec(T *b, size_t s, size_t i) {
 		buf = (T*)malloc(sizeof(T) * s);
 		memcpy(buf, b, sizeof(T) * s);
@@ -51,8 +56,9 @@ struct Vec {
 	}
 
 	void push(T x) {
+		ASSERT(i < size);
 		buf[i++] = x;
-		if (i > size) resize(size * 2);
+		if (i >= size) resize(size * 2);
 	}
 
 	str::str to_str() {
@@ -97,18 +103,20 @@ struct Vec {
 		return r;
 	}
 
-	template<typename X>
-	Vec<X> each(X (^f)(T)) {
+	template<typename X, typename F>
+	Vec<X> each(F f) {
 		auto r = Vec<X>();
 		for (size_t n = 0; n < len(); n++) r.push(f(at(n)));
 		return r;
 	}
 
-	Vec<T> operator+(T x) {
-		auto r = Vec<T>();
-		for (size_t n = 0; n < len(); n++) r.push(x + at(n));
-		return r;
+	#define MATH(s) Vec<T> operator s(T x) { \
+		auto r = Vec<T>(); \
+		for (size_t n = 0; n < len(); n++) r.push(x s at(n)); \
+		return r; \
 	}
+
+	MATH(+) MATH(-) MATH(*) MATH(/)
 };
 
 template<typename T>
@@ -129,6 +137,10 @@ namespace detail {
 #define ARGC(...) detail::va_count(__VA_ARGS__)
 
 /** make a vector from the arguments */
-#define VEC(t, ...) (Vec<t>((t[]){ __VA_ARGS__ }, ARGC(__VA_ARGS__), ARGC(__VA_ARGS__)))
+#define VEC(T, ...) (Vec<T>( \
+	(T[]){ __VA_ARGS__ }, \
+	ARGC(__VA_ARGS__), \
+	ARGC(__VA_ARGS__) \
+))
 
 #endif
