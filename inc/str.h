@@ -24,6 +24,7 @@ namespace str {
 		char *to_c_str();
 	};
 
+	str fmt(size_t x);
 	str fmt(uint8_t x);
 }
 

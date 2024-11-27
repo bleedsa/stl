@@ -127,6 +127,13 @@ SizeVecTest size_tests[] = {
 			return v;
 		}
 	),
+	SizeVecTest(
+		"sum scan",
+		VEC(size_t, 0, 1, 3, 6),
+		[]() {
+			return Vec<size_t>::iota(4).scan<size_t>([](size_t x, size_t y) { return x + y; });
+		}
+	),
 };
 
 int main() {

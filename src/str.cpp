@@ -52,6 +52,17 @@ namespace str {
 		return s;
 	}
 
+	auto fmt(size_t x) -> str {
+		auto r = str();
+
+		char *s;
+		auto n = asprintf(&s, "%zu", x);
+		for (int i = 0; i < n; i++) r.push(s[i]);
+		free(s);
+
+		return r;
+	}
+
 	auto fmt(uint8_t x) -> str {
 		auto r = str();
 

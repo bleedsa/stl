@@ -109,6 +109,24 @@ struct Vec {
 		return r;
 	}
 
+	template<typename X, typename F>
+	Vec<X> scan(F f) {
+		ASSERT(i > 0);
+
+		auto r = Vec<X>();
+		auto p = at(0); /* prev */
+		r.push(p);
+
+		for (size_t n = 1; n < len(); n++) {
+			auto c = at(n); /* current */
+			auto x = f(p, c); /* apply */
+			r.push(x);
+			p = x;
+		}
+
+		return r;
+	}
+
 	#define MATH(s) Vec<T> operator s(T x) { \
 		auto r = Vec<T>(); \
 		for (size_t n = 0; n < len(); n++) r.push(x s at(n)); \
