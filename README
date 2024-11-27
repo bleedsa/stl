@@ -1,0 +1,26 @@
+SKYLAR TEMPLATE LIBRARY
+
+	A collection of data structures for C++ by Skylar Bleed.
+
+BUILDING
+
+	## depends
+	- goal (https://codeberg.org/anaseto/goal)
+	- ninja (build system)
+	- clang/++
+
+	## build the static library
+	% goal etc/ninja.goal  # generate a ninja file (optional)
+	% ninja                # build o/libstl.a
+
+	## include the headers
+	/* clang -Iinc o/libstl.a etc */
+	#include <com.h>       # common code
+	#include <str.h>       # dynamic, heap allocated strings
+	#include <vec.h>       # k-like vectors
+
+USAGE
+
+	TODO.
+
+	See run/ for more usage examples.
