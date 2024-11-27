@@ -25,11 +25,10 @@ struct Vec {
 		buf = (T*)malloc(sizeof(T) * size);
 	}
 
-	Vec(T *b, size_t s, size_t i) {
+	Vec(T *b, size_t s, size_t i) : i{i} {
 		buf = (T*)malloc(sizeof(T) * s);
-		memcpy(buf, b, sizeof(T) * s);
 		size = s;
-		this->i = i;
+		for (size_t n = 0; n < i; n++) buf[n] = b[n];
 	}
 
 	~Vec() {
@@ -39,13 +38,13 @@ struct Vec {
 	Vec(const Vec& x) {
 		i = x.i, size = x.size;
 		buf = (T*)malloc(sizeof(T) * size);
-		memcpy(buf, x.buf, sizeof(T) * size);
+		for (size_t n = 0; n < i; n++) buf[n] = x.buf[n];
 	}
 
 	Vec& operator=(const Vec& x) {
 		i = x.i, size = x.size;
 		buf = (T*)malloc(sizeof(T) * size);
-		memcpy(buf, x.buf, sizeof(T) * size);
+		for (size_t n = 0; n < i; n++) buf[n] = x.buf[n];
 		return *this;
 	}
 

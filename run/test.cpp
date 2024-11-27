@@ -108,18 +108,25 @@ SizeVecTest size_tests[] = {
 			return (Vec<size_t>::iota(3) + 1) * 2;
 		}
 	),
-	/*
 	SizeVecTest(
 		"chain",
 		VEC(size_t, 2, 3, 4),
 		[]() {
 			return (Vec<size_t>::iota(3) + 1)
-				.each([](size_t x) -> size_t {
+				.each<size_t>([](size_t x) -> size_t {
 					return x + 1;
 				});
 		}
-	)
-	*/
+	),
+	SizeVecTest(
+		"big vec",
+		Vec<size_t>::iota(1000000),
+		[]() {
+			auto v = Vec<size_t>();
+			for (size_t i = 0; i < 1000000; i++) v.push(i);
+			return v;
+		}
+	),
 };
 
 int main() {
