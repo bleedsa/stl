@@ -1,6 +1,7 @@
 #ifndef __STL_INC_VEC_H__
 #define __STL_INC_VEC_H__
 
+#include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -78,6 +79,7 @@ struct Vec {
 	}
 
 	inline T at(size_t idx) {
+		ASSERT(idx < len());
 		return buf[idx];
 	}
 
@@ -111,20 +113,25 @@ struct Vec {
 
 	template<typename X, typename F>
 	Vec<X> scan(F f) {
-		ASSERT(i > 0);
+		switch (len()) {
+		case 0:
+		case 1:
+			return *this;
+		default: {
+			auto r = Vec<X>();
+			auto p = at(0); /* prev */
+			r.push(p);
 
-		auto r = Vec<X>();
-		auto p = at(0); /* prev */
-		r.push(p);
+			for (size_t n = 1; n < len(); n++) {
+				auto c = at(n); /* current */
+				auto x = f(p, c); /* apply */
+				r.push(x);
+				p = x;
+			}
 
-		for (size_t n = 1; n < len(); n++) {
-			auto c = at(n); /* current */
-			auto x = f(p, c); /* apply */
-			r.push(x);
-			p = x;
+			return r;
 		}
-
-		return r;
+		}
 	}
 
 	#define MATH(s) Vec<T> operator s(T x) { \
@@ -134,6 +141,18 @@ struct Vec {
 	}
 
 	MATH(+) MATH(-) MATH(*) MATH(/)
+
+	Vec<T> rev() {
+		if (len() > 0) {
+			size_t n;
+			auto r = Vec<T>();
+			for (n = len() - 1; n > 0; n--) r.push(at(n));
+			r.push(at(n));
+			return r;
+		} else {
+			return *this;
+		}
+	}
 };
 
 template<typename T>

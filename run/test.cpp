@@ -38,7 +38,14 @@ ByteVecTest byte_tests[] = {
 			for (uint8_t i = 1; i < 4; i++) v.push(i);
 			return v;
 		}
-	)
+	),
+	ByteVecTest(
+		"rev iota",
+		VEC(uint8_t, 3, 2, 1, 0),
+		[]() {
+			return Vec<uint8_t>::iota(4).rev();
+		}
+	),
 };
 
 using SizeVecTest = test_t<Vec<size_t>>;
@@ -132,6 +139,13 @@ SizeVecTest size_tests[] = {
 		VEC(size_t, 0, 1, 3, 6),
 		[]() {
 			return Vec<size_t>::iota(4).scan<size_t>([](size_t x, size_t y) { return x + y; });
+		}
+	),
+	SizeVecTest(
+		"scan empty",
+		Vec<size_t>(),
+		[]() {
+			return Vec<size_t>().scan<size_t>([](size_t x, size_t y) { return x + y; });
 		}
 	),
 };
