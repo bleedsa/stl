@@ -155,6 +155,13 @@ SizeVecTest size_tests[] = {
 			return Vec<size_t>().scan<size_t>([](size_t x, size_t y) { return x + y; });
 		}
 	),
+	SizeVecTest(
+		"over",
+		10,
+		[]() {
+			return Vec<size_t>::iota(5).over<size_t>([](size_t x, size_t y) { return x + y; });
+		}
+	),
 };
 
 int main() {

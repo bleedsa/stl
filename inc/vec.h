@@ -134,6 +134,24 @@ struct Vec {
 		}
 	}
 
+	template<typename X, typename F>
+	X over(F f) {
+		ASSERT(len() > 0);
+		switch (len()) {
+		case 1:
+			return at(0);
+		default: {
+			auto p = at(0);
+			for (size_t n = 1; n < len(); n++) {
+				auto c = at(n);
+				auto x = f(p, c);
+				p = x;
+			}
+			return p;
+		}
+		}
+	}
+
 	#define MATH(s) Vec<T> operator s(T x) { \
 		auto r = Vec<T>(); \
 		for (size_t n = 0; n < len(); n++) r.push(x s at(n)); \
