@@ -46,6 +46,13 @@ ByteVecTest byte_tests[] = {
 			return Vec<uint8_t>::iota(4).rev();
 		}
 	),
+	ByteVecTest(
+		"len",
+		3,
+		[]() {
+			return Vec<uint8_t>::iota(3).len();
+		}
+	),
 };
 
 using SizeVecTest = test_t<Vec<size_t>>;
@@ -155,7 +162,7 @@ int main() {
 		for (auto& x : T) { \
 			auto r = x.test(); \
 			cout << x.name << ": "; \
-			cout << (r ? "success" : "failed") << endl; \
+			cout << (r ? "\033[32msuccess\033[0m" : "\033[31mfailed\033[0m") << endl; \
 			if (!r) { \
 				auto lhs = x.exp.to_str().to_c_str(); \
 				cout << "want: " << lhs << endl; \
